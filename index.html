@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Modal Fake News Detection with Cultural Context</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1 class="header__title">Multi-Modal Fake News Detection</h1>
+                <p class="header__subtitle">Advanced AI-powered analysis with cultural context</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Navigation Tabs -->
+                <nav class="tabs">
+                    <button class="tab active" data-tab="text">
+                        <span class="tab__icon">📝</span>
+                        <span class="tab__label">Text Analysis</span>
+                    </button>
+                    <button class="tab" data-tab="image">
+                        <span class="tab__icon">🖼️</span>
+                        <span class="tab__label">Image Forensics</span>
+                    </button>
+                    <button class="tab" data-tab="video">
+                        <span class="tab__icon">🎥</span>
+                        <span class="tab__label">Video Analysis</span>
+                    </button>
+                    <button class="tab" data-tab="audio">
+                        <span class="tab__icon">🎵</span>
+                        <span class="tab__label">Audio Forensics</span>
+                    </button>
+                    <button class="tab" data-tab="combined">
+                        <span class="tab__icon">🔍</span>
+                        <span class="tab__label">Combined Analysis</span>
+                    </button>
+                </nav>
+
+                <!-- Content Panels -->
+                <div class="content">
+                    <!-- Text Analysis Panel -->
+                    <div class="panel active" id="text-panel">
+                        <div class="panel__grid">
+                            <div class="input-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Text Content Analysis</h3>
+                                        <p class="text-secondary">Paste text content or provide a URL for analysis</p>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label">Input Method</label>
+                                            <select class="form-control" id="text-input-method">
+                                                <option value="text">Direct Text</option>
+                                                <option value="url">URL</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Content</label>
+                                            <textarea class="form-control" id="text-content" rows="8" placeholder="Paste your text content here..."></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Cultural Context</label>
+                                            <select class="form-control" id="cultural-context">
+                                                <option value="en-US">US English</option>
+                                                <option value="en-UK">UK English</option>
+                                                <option value="en-IN">Indian English</option>
+                                                <option value="es-MX">Spanish (Mexico)</option>
+                                                <option value="fr-FR">French (France)</option>
+                                                <option value="zh-CN">Chinese (Simplified)</option>
+                                                <option value="ar-SA">Arabic (Saudi Arabia)</option>
+                                            </select>
+                                        </div>
+
+                                        <button class="btn btn--primary btn--full-width" onclick="analyzeContent('text')">
+                                            Analyze Text Content
+                                        </button>
+
+                                        <div class="sample-content">
+                                            <h4>Try Sample Content:</h4>
+                                            <button class="btn btn--outline btn--sm" onclick="loadSample('text')">
+                                                Load Sample Article
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="results-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Analysis Results</h3>
+                                        <div id="text-results" class="results-placeholder">
+                                            <p class="text-secondary">Results will appear here after analysis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Analysis Panel -->
+                    <div class="panel" id="image-panel">
+                        <div class="panel__grid">
+                            <div class="input-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Image Forensics</h3>
+                                        <p class="text-secondary">Upload an image to analyze for digital manipulation</p>
+                                        
+                                        <div class="upload-area" onclick="document.getElementById('image-upload').click()">
+                                            <div class="upload-area__content">
+                                                <span class="upload-area__icon">🖼️</span>
+                                                <p>Click to upload or drag & drop</p>
+                                                <p class="text-secondary">Supports JPG, PNG, GIF (max 10MB)</p>
+                                            </div>
+                                            <input type="file" id="image-upload" accept="image/*" style="display: none;" onchange="handleFileUpload(this, 'image')">
+                                        </div>
+
+                                        <div id="image-preview" class="file-preview"></div>
+
+                                        <button class="btn btn--primary btn--full-width" onclick="analyzeContent('image')" disabled id="image-analyze-btn">
+                                            Analyze Image
+                                        </button>
+
+                                        <div class="sample-content">
+                                            <h4>Try Sample:</h4>
+                                            <button class="btn btn--outline btn--sm" onclick="loadSample('image')">
+                                                Load Sample Image
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="results-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Forensics Results</h3>
+                                        <div id="image-results" class="results-placeholder">
+                                            <p class="text-secondary">Results will appear here after analysis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Analysis Panel -->
+                    <div class="panel" id="video-panel">
+                        <div class="panel__grid">
+                            <div class="input-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Video Analysis</h3>
+                                        <p class="text-secondary">Upload a video file to analyze for deepfakes and tampering</p>
+                                        
+                                        <div class="upload-area" onclick="document.getElementById('video-upload').click()">
+                                            <div class="upload-area__content">
+                                                <span class="upload-area__icon">🎥</span>
+                                                <p>Click to upload or drag & drop</p>
+                                                <p class="text-secondary">Supports MP4, AVI, MOV (max 50MB)</p>
+                                            </div>
+                                            <input type="file" id="video-upload" accept="video/*" style="display: none;" onchange="handleFileUpload(this, 'video')">
+                                        </div>
+
+                                        <div id="video-preview" class="file-preview"></div>
+
+                                        <button class="btn btn--primary btn--full-width" onclick="analyzeContent('video')" disabled id="video-analyze-btn">
+                                            Analyze Video
+                                        </button>
+
+                                        <div class="sample-content">
+                                            <h4>Analysis Features:</h4>
+                                            <ul class="feature-list">
+                                                <li>Deepfake detection</li>
+                                                <li>Frame inconsistency analysis</li>
+                                                <li>Temporal tampering detection</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="results-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Video Analysis Results</h3>
+                                        <div id="video-results" class="results-placeholder">
+                                            <p class="text-secondary">Results will appear here after analysis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audio Analysis Panel -->
+                    <div class="panel" id="audio-panel">
+                        <div class="panel__grid">
+                            <div class="input-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Audio Forensics</h3>
+                                        <p class="text-secondary">Upload an audio file to analyze for voice cloning and manipulation</p>
+                                        
+                                        <div class="upload-area" onclick="document.getElementById('audio-upload').click()">
+                                            <div class="upload-area__content">
+                                                <span class="upload-area__icon">🎵</span>
+                                                <p>Click to upload or drag & drop</p>
+                                                <p class="text-secondary">Supports MP3, WAV, M4A (max 20MB)</p>
+                                            </div>
+                                            <input type="file" id="audio-upload" accept="audio/*" style="display: none;" onchange="handleFileUpload(this, 'audio')">
+                                        </div>
+
+                                        <div id="audio-preview" class="file-preview"></div>
+
+                                        <button class="btn btn--primary btn--full-width" onclick="analyzeContent('audio')" disabled id="audio-analyze-btn">
+                                            Analyze Audio
+                                        </button>
+
+                                        <div class="sample-content">
+                                            <h4>Analysis Features:</h4>
+                                            <ul class="feature-list">
+                                                <li>Voice cloning detection</li>
+                                                <li>Synthetic speech identification</li>
+                                                <li>Audio manipulation analysis</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="results-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Audio Analysis Results</h3>
+                                        <div id="audio-results" class="results-placeholder">
+                                            <p class="text-secondary">Results will appear here after analysis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Combined Analysis Panel -->
+                    <div class="panel" id="combined-panel">
+                        <div class="panel__grid">
+                            <div class="input-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Multi-Modal Analysis</h3>
+                                        <p class="text-secondary">Combine multiple content types for comprehensive analysis</p>
+                                        
+                                        <div class="multi-upload">
+                                            <div class="upload-type">
+                                                <h4>Text Content</h4>
+                                                <textarea class="form-control" id="combined-text" rows="4" placeholder="Add text content..."></textarea>
+                                            </div>
+                                            
+                                            <div class="upload-type">
+                                                <h4>Media Files</h4>
+                                                <div class="upload-area small" onclick="document.getElementById('combined-files').click()">
+                                                    <span class="upload-area__icon">📎</span>
+                                                    <p>Upload images, videos, or audio</p>
+                                                    <input type="file" id="combined-files" multiple accept="image/*,video/*,audio/*" style="display: none;" onchange="handleMultipleFileUpload(this)">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="combined-preview" class="multi-preview"></div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Cultural Context</label>
+                                            <select class="form-control" id="combined-cultural-context">
+                                                <option value="en-US">US English</option>
+                                                <option value="en-UK">UK English</option>
+                                                <option value="en-IN">Indian English</option>
+                                                <option value="es-MX">Spanish (Mexico)</option>
+                                                <option value="fr-FR">French (France)</option>
+                                                <option value="zh-CN">Chinese (Simplified)</option>
+                                                <option value="ar-SA">Arabic (Saudi Arabia)</option>
+                                            </select>
+                                        </div>
+
+                                        <button class="btn btn--primary btn--full-width" onclick="analyzeContent('combined')">
+                                            Run Combined Analysis
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="results-section">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <h3>Comprehensive Results</h3>
+                                        <div id="combined-results" class="results-placeholder">
+                                            <p class="text-secondary">Results will appear here after analysis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis History Sidebar -->
+                <aside class="history-sidebar">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Recent Analyses</h3>
+                            <div id="analysis-history">
+                                <p class="text-secondary">No analyses yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <!-- Loading Modal -->
+        <div class="modal hidden" id="loading-modal">
+            <div class="modal__backdrop"></div>
+            <div class="modal__content">
+                <div class="loading-spinner"></div>
+                <h3>Analyzing Content</h3>
+                <p id="loading-text">Initializing analysis...</p>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div class="modal hidden" id="results-modal">
+            <div class="modal__backdrop" onclick="closeModal('results-modal')"></div>
+            <div class="modal__content large">
+                <div class="modal__header">
+                    <h2>Detailed Analysis Results</h2>
+                    <button class="btn btn--outline btn--sm" onclick="closeModal('results-modal')">Close</button>
+                </div>
+                <div class="modal__body" id="detailed-results">
+                    <!-- Results content will be populated here -->
+                </div>
+                <div class="modal__footer">
+                    <div class="feedback-section">
+                        <h4>Was this analysis helpful?</h4>
+                        <div class="feedback-buttons">
+                            <button class="btn btn--outline btn--sm" onclick="submitFeedback('positive')">👍 Yes</button>
+                            <button class="btn btn--outline btn--sm" onclick="submitFeedback('negative')">👎 No</button>
+                        </div>
+                        <textarea class="form-control mt-8" placeholder="Additional feedback (optional)..." rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
