@@ -1,4 +1,4 @@
-# 📰 CulTruth: Multimodal Fake News Detection with Cultural Content
+# 📰 DeepTruth: AI-Powered Detection for a Trusted Digital World
 
 CulTruth is a final year engineering project that leverages multimodal deep learning to detect fake news in culturally sensitive content using **text and image analysis**. The system is designed to tackle misinformation that targets traditions, religion, politics, and cultural practices, particularly in diverse societies like India.
 
